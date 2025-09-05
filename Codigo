@@ -1,0 +1,33 @@
+%hechos
+conexion_costo(vancouver,edmonton,16).
+conexion_costo(vancouver,calgary,13).
+conexion_costo(edmonton,saskatoon,12).
+conexion_costo(saskatoon,calgary,9).
+conexion_costo(saskatoon,winnipeg,20).
+conexion_costo(calgary,edmonton,4).
+conexion_costo(calgary,regina,14).
+conexion_costo(regina,saskatoon,7).
+conexion_costo(regina,winnipeg,4).
+%reglas
+
+existe_conexion(O,D):-
+    conexion_costo(O,D,_).
+tiene_conexiones(O):-
+    conexion_costo(O,_,_).
+
+con_costo(O,D,C):-
+    conexion_costo(O,D,C).
+viaje(O,D,C):-
+    conexion_costo(O,I,C1),
+    conexion_costo(I,D,C2),
+    C is C1+C2.
+
+%base
+viaje_recursivo(O,D,C):-
+    conexion_costo(O,D,C).
+%parte recursiva
+viaje_recursivo(O,D,C):-
+    conexion_costo(O,I,C2),
+    viaje_recursivo(I,D,C1),
+    C is C1+C2.
+
